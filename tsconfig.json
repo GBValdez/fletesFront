@@ -4,6 +4,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
+    "paths": {
+      "@utils/*": ["src/app/utils/*"],
+      "@auth/*": ["src/app/utils/modules/auth/*"],
+      "@user/*": ["src/app/utils/modules/user/*"],
+      "@catalogues/*": ["src/app/utils/modules/catalogues/*"],
+      "@env/*": ["src/environments/*"],
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

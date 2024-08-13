@@ -10,6 +10,7 @@
       "@auth/*": ["src/app/utils/modules/auth/*"],
       "@user/*": ["src/app/utils/modules/user/*"],
       "@catalogues/*": ["src/app/utils/modules/catalogues/*"],
+      "@providersModule/*": ["src/app/providersModule/*"],
       "@env/*": ["src/environments/*"],
     },
     "strict": true,

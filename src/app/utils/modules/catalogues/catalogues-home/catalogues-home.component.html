@@ -1,5 +1,5 @@
 <section class="flex justify-between flex-wrap">
-  <h2 class="title">{{ title }}</h2>
+  <h2 class="title text-orange-600">{{ title }}</h2>
   <button class="sm:mb-0 mb-[10px]" mat-raised-button (click)="openForm()">
     Crear {{ title.toLowerCase() }}
   </button>
@@ -48,12 +48,16 @@
   >
     <mat-card-header>
       <mat-card-title
-        ><h3>
+        ><h3 class="titleItem">
           {{ catalogue.name }}
         </h3></mat-card-title
       >
       <mat-card-subtitle>
         <p>{{ catalogue.description }}</p>
+        @if(dependency){
+        <h4 class="subtitleItem">{{ dependency.name }}</h4>
+        <p>{{ catalogue.catalogueParent?.name }}</p>
+        }
       </mat-card-subtitle>
     </mat-card-header>
   </mat-card>

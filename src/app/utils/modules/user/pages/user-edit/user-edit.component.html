@@ -7,12 +7,14 @@
 >
   <mat-card class="w-full">
     <mat-card-header>
-      <mat-card-title>Información General</mat-card-title>
+      <mat-card-title
+        ><h2 class="titleItem">Información General</h2>
+      </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <section>
         <div class="break-words">
-          <h4>Email:</h4>
+          <h4 class="titleItem">Email:</h4>
           {{ userEdit.email }}
         </div>
         <mat-form-field class="w-full mt-[5px]">
@@ -28,7 +30,7 @@
 
   <mat-card class="mt-[5px] w-full">
     <mat-card-header>
-      <mat-card-title>Roles</mat-card-title>
+      <mat-card-title><h3 class="titleItem">Roles</h3> </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <app-list-maker-list

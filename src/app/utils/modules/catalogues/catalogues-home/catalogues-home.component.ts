@@ -20,6 +20,8 @@ import { CatalogueFormComponent } from '../catalogue-form/catalogue-form.compone
 import { CatalogueService } from '@catalogues/services/catalogue.service';
 import { formIsEmptyValidator } from '@utils/utils';
 import { catalogueInterface, catalogueModal } from '@utils/commons.interface';
+import { MatSelectModule } from '@angular/material/select';
+import { depCatalogueInterface } from '../catalogue.Interface';
 
 @Component({
   selector: 'app-catalogues-home',
@@ -46,6 +48,7 @@ export class CataloguesHomeComponent implements OnInit {
     private dialog: MatDialog
   ) {}
   title: string = '';
+  dependency?: depCatalogueInterface;
   typeCatalogue: string = '';
   form!: FormGroup;
   catalogues: catalogueInterface[] = [];
@@ -59,6 +62,7 @@ export class CataloguesHomeComponent implements OnInit {
     });
     this.title = this.actRouter.snapshot.data['titleShow'];
     this.typeCatalogue = this.actRouter.snapshot.data['typeCatalogue'];
+    this.dependency = this.actRouter.snapshot.data['dependency'];
     this.getCatalogues(this.pageNumber, this.pageSize);
   }
 
@@ -115,6 +119,7 @@ export class CataloguesHomeComponent implements OnInit {
       typeCatalogue: this.typeCatalogue,
       title: this.title,
       catalogue,
+      dependency: this.dependency,
     };
     this.dialog
       .open(CatalogueFormComponent, {

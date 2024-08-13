@@ -1,40 +1,28 @@
 import { CatalogueRoutesInterface } from './catalogue.Interface';
 
 export const catalogueData: CatalogueRoutesInterface[] = [
-  // {
-  //   title: 'Estado Avion',
-  //   name: 'EST_AV',
-  // },
-  // {
-  //   title: 'Tipo Avion',
-  //   name: 'TIP_AV',
-  // },
   {
-    title: 'Marca Avion',
-    name: 'MARCA_AV',
+    title: 'Marca de vehículo',
+    name: 'MDV',
   },
   {
-    title: 'Modelo Avion',
-    name: 'MODELO_AV',
+    title: 'Modelo de vehículo',
+    name: 'MODELDV',
+    dependency: {
+      name: 'Marca de vehículo',
+      id: 'MDV',
+    },
   },
-  // {
-  //   title: 'Puestos',
-  //   name: 'PUESTOS',
-  // },
-  // {
-  //   title: 'Clases de asiento de avion',
-  //   name: 'CAA',
-  // },
-  // {
-  //   title: 'Estado de boleto',
-  //   name: 'EB',
-  // },
   {
-    title: 'Zona horaria',
-    name: 'ZHORARIA',
+    title: 'Tipo de vehículo',
+    name: 'TDV',
   },
-  // {
-  //   title: 'Roles',
-  //   name: 'rol',
-  // },
+  {
+    title: 'Categoría de producto',
+    name: 'CDP',
+  },
+  {
+    title: 'Marca de producto',
+    name: 'MDP',
+  },
 ];

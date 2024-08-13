@@ -1,7 +1,11 @@
+import { depCatalogueInterface } from './modules/catalogues/catalogue.Interface';
+
 export interface catalogueInterface {
   id?: number | string;
   name: string;
   description: string;
+  catalogueParentId?: number | string;
+  catalogueParent?: catalogueInterface;
 }
 export interface catalogueQuery {
   nameCont?: string;
@@ -12,6 +16,7 @@ export interface catalogueModal {
   typeCatalogue: string;
   title: string;
   catalogue?: catalogueInterface;
+  dependency?: depCatalogueInterface;
 }
 export interface pagDto<T> {
   items: T[];

@@ -66,18 +66,18 @@
   >
     <mat-card-header>
       <mat-card-title
-        ><h3>
+        ><h3 class="titleItem">
           {{ user.userName }}
         </h3></mat-card-title
       >
     </mat-card-header>
     <mat-card-content>
       <div class="break-words">
-        <h4>Email:</h4>
+        <h4 class="subtitleItem">Email:</h4>
         {{ user.email }}
       </div>
       <div>
-        <h4>Estado:</h4>
+        <h4 class="subtitleItem">Estado:</h4>
         {{ user.isActive ? "Activo" : "Inactivo" }}
       </div>
     </mat-card-content>

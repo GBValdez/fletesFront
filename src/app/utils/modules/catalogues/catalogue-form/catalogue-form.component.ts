@@ -15,9 +15,11 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CatalogueService } from '@catalogues/services/catalogue.service';
-import { catalogueModal } from '@utils/commons.interface';
+import { catalogueInterface, catalogueModal } from '@utils/commons.interface';
 import Swal from 'sweetalert2';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatSelectModule } from '@angular/material/select';
+import { depCatalogueInterface } from '../catalogue.Interface';
 
 @Component({
   selector: 'app-catalogue-form',
@@ -30,6 +32,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     MatFormFieldModule,
     MatDialogModule,
     TextFieldModule,
+    MatSelectModule,
   ],
   templateUrl: './catalogue-form.component.html',
   styleUrl: './catalogue-form.component.scss',
@@ -37,6 +40,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 export class CatalogueFormComponent implements OnInit {
   dataCatalogue!: catalogueModal;
   form!: FormGroup;
+  catalogueDependency: catalogueInterface[] = [];
+  dependency?: depCatalogueInterface;
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: catalogueModal,
     private fb: FormBuilder,
@@ -44,6 +49,8 @@ export class CatalogueFormComponent implements OnInit {
     private dialogRef: MatDialogRef<CatalogueFormComponent>
   ) {}
   ngOnInit(): void {
+    this.dataCatalogue = this.data;
+
     this.form = this.fb.group({
       name: [
         '',
@@ -53,17 +60,39 @@ export class CatalogueFormComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(255)]),
       ],
+      catalogueParentId: [
+        null,
+        this.data.dependency ? Validators.required : null,
+      ],
     });
-    this.dataCatalogue = this.data;
     if (this.dataCatalogue.catalogue) {
       this.form.patchValue({
         name: this.dataCatalogue.catalogue.name,
         description: this.dataCatalogue.catalogue.description,
       });
     }
+
+    if (this.data.dependency) {
+      this.dependency = this.data.dependency;
+
+      this.catalogueSvc
+        .get(this.data.dependency.id, 1, 10, { all: true })
+        .subscribe((res) => {
+          this.catalogueDependency = res.items;
+          console.log(this.dataCatalogue.catalogue);
+          this.form.patchValue({
+            catalogueParentId:
+              this.dataCatalogue.catalogue?.catalogueParent?.id,
+          });
+        });
+    }
   }
   cleanForm() {
-    this.form.patchValue({ name: '', description: '' });
+    this.form.patchValue({
+      name: '',
+      description: '',
+      catalogueParentId: null,
+    });
   }
   async onSubmit() {
     if (this.form.valid) {

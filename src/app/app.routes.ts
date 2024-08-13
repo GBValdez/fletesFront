@@ -1,8 +1,13 @@
 import { Route, Routes } from '@angular/router';
 import { AuthGuard } from '@auth/guards/auth.guard';
+import { depCatalogueInterface } from '@utils/modules/catalogues/catalogue.Interface';
 import { catalogueData } from '@utils/modules/catalogues/catalogueData';
 
-const createRouteCatalogue = (title: string, name: string): Route => {
+const createRouteCatalogue = (
+  title: string,
+  name: string,
+  dependency?: depCatalogueInterface
+): Route => {
   return {
     path: `catalogue/${name}`,
     loadComponent: () =>
@@ -15,12 +20,13 @@ const createRouteCatalogue = (title: string, name: string): Route => {
       roles: ['ADMINISTRATOR'],
       titleShow: title,
       typeCatalogue: name,
+      dependency: dependency,
     },
     title: title,
   };
 };
 const CATALOGUE_ROUTE = catalogueData.map((catalogue) =>
-  createRouteCatalogue(catalogue.title, catalogue.name)
+  createRouteCatalogue(catalogue.title, catalogue.name, catalogue.dependency)
 );
 
 export const routes: Routes = [

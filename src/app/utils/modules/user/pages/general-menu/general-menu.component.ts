@@ -48,6 +48,24 @@ export class GeneralMenuComponent implements OnInit {
             show: true,
           },
           {
+            text: 'Proveedores',
+            icon: 'local_shipping',
+            click: '/session/provider-home',
+            show: true,
+          },
+          {
+            text: 'Productos',
+            icon: 'shopping_cart',
+            click: '/session/product-home',
+            show: true,
+          },
+          {
+            text: 'Repartidores',
+            icon: 'people',
+            click: '/session/driver-home',
+            show: true,
+          },
+          {
             text: 'Catálogos',
             icon: 'list',
             child: [

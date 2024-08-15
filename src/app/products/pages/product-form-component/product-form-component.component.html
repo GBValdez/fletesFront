@@ -1,0 +1,49 @@
+<app-form-cms [data]="dataInfo">
+  <form [formGroup]="dataInfo.form">
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" [maxlength]="50" />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Descripción</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        [maxlength]="200"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="5"
+      ></textarea>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Peso</mat-label>
+      <input matInput formControlName="weight" appOnlyNumberInput />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Marca</mat-label>
+      <mat-select formControlName="brandProductId">
+        @for(item of brands; track item) {
+        <mat-option [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoryId">
+        @for(item of categories; track item) {
+        <mat-option [value]="item.id">
+          {{ item.name }}
+        </mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+  </form>
+</app-form-cms>

@@ -29,6 +29,7 @@ export class CommonsSvcService<dto, dtoCreation> {
   }
 
   get<queryParam>(opts?: pagOptions<queryParam>): Observable<pagDto<dto>> {
+    console.log('opts', this.urlBase);
     const PARAMS = this.fixedQueryParams<queryParam>(opts);
     return this.http.get<pagDto<dto>>(this.urlBase, { params: PARAMS });
   }

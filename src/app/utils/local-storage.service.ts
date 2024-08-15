@@ -35,7 +35,6 @@ export class LocalStorageService {
       const DECRYPT_TEXT: string = AES.decrypt(VALUE, environment.key).toString(
         enc.Utf8
       );
-      console.log(VALUE);
       return JSON.parse(DECRYPT_TEXT) as t;
     }
     return null;

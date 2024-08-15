@@ -97,6 +97,34 @@ export const routes: Routes = [
         data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
         canActivate: [AuthGuard],
       },
+      {
+        path: 'provider-home',
+        loadComponent: () =>
+          import(
+            '@providersModule/components/provider-home/provider-home.component'
+          ).then((m) => m.ProviderHomeComponent),
+      },
+      {
+        path: 'product-home',
+        loadComponent: () =>
+          import('@product/pages/product-home/product-home.component').then(
+            (m) => m.ProductHomeComponent
+          ),
+      },
+      {
+        path: 'station-home/:providerId',
+        loadComponent: () =>
+          import('@station/pages/station-home/station-home.component').then(
+            (m) => m.StationHomeComponent
+          ),
+      },
+      {
+        path: 'driver-home',
+        loadComponent: () =>
+          import('@drivers/pages/driver-home/driver-home.component').then(
+            (m) => m.DriverHomeComponent
+          ),
+      },
       ...CATALOGUE_ROUTE,
     ],
   },

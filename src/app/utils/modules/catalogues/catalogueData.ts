@@ -25,4 +25,5 @@ export const catalogueData: CatalogueRoutesInterface[] = [
     title: 'Marca de producto',
     name: 'MDP',
   },
+  { title: 'Roles', name: 'rol' },
 ];

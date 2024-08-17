@@ -10,9 +10,14 @@ export interface catalogueInterface extends dtoCommons<number | string> {
   catalogueParentId?: number | string;
   catalogueParent?: catalogueInterface;
 }
+
+export interface catalogueChildInterface extends catalogueInterface {
+  children?: catalogueInterface[];
+}
 export interface catalogueQuery {
-  nameCont?: string;
+  name?: string;
   all?: boolean;
+  catalogueParentId?: number;
 }
 
 export interface catalogueModal {
@@ -58,6 +63,9 @@ export interface formModalDto {
   dialogRef: MatDialogRef<any>;
   post: (data: any) => Observable<any>;
   put: (id: number, data: any) => Observable<any>;
+  map?: (data: any) => any;
+  mapEdit?: (data: any) => any;
+  finalizeEdit?: () => void;
 }
 
 export interface menuBasicInterface {

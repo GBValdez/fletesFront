@@ -58,7 +58,9 @@ export function dtoToCreationDto(dto: any): any {
   let data: any = JSON.parse(JSON.stringify(dto));
   delete data.id;
   Object.keys(data).forEach((key) => {
-    if (typeof data[key] == 'object') data[key + 'Id'] = data[key].id;
+    console.log('key', key, data[key]);
+    if (typeof data[key] == 'object' && data[key] != null)
+      data[key + 'Id'] = data[key].id;
     else data[key] = data[key];
   });
   return data;

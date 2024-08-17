@@ -24,5 +24,5 @@ export interface driverDto extends driverDtoBase {
 export interface driverCreateDto extends driverDtoBase {
   brandId: number;
   modelId: number;
-  userId: number;
+  userId: string;
 }

@@ -1,8 +1,14 @@
 <app-form-cms [data]="dataInfo">
-  <form [formGroup]="dataInfo.form">
+  <form [formGroup]="form">
     <mat-form-field class="w-full mb-3">
       <mat-label>Nombre</mat-label>
       <input matInput formControlName="name" [maxlength]="50" />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-3">
+      <mat-label>UserName</mat-label>
+      <input matInput formControlName="userId" [maxlength]="50" />
       <mat-error>El campo es requerido</mat-error>
     </mat-form-field>
 
@@ -32,9 +38,9 @@
     <mat-form-field class="w-full mb-3">
       <mat-label>Correo</mat-label>
       <input matInput formControlName="email" />
-      @if (dataInfo.form.get("email")!.hasError("required")) {
+      @if (form.get("email")!.hasError("required")) {
       <mat-error>El campo es requerido</mat-error>
-      } @if (dataInfo.form.get("email")!.hasError("email")) {
+      } @if (form.get("email")!.hasError("email")) {
       <mat-error>El correo no es válido</mat-error>
       }
     </mat-form-field>
@@ -44,6 +50,41 @@
       <input matInput formControlName="address" [maxlength]="250" />
       <mat-error>El campo es requerido</mat-error>
     </mat-form-field>
-    <app-time-range></app-time-range>
+    <p>Horario</p>
+    <app-time-range formControlName="time"></app-time-range>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Peso máximo</mat-label>
+      <input matInput formControlName="maximumWeight" appOnlyNumberInput />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-3">
+      <mat-label> Limite de paradas</mat-label>
+      <input matInput formControlName="stopLimit" appOnlyNumberInput />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Marca de vehículo</mat-label>
+      <mat-select formControlName="brandId" (selectionChange)="openBrand()">
+        @for (item of brands; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Modelo de vehículo</mat-label>
+      <mat-select formControlName="modelId">
+        @for (item of currentBrand?.children; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        } @if (currentBrand?.children?.length === 0) {
+        <mat-option disabled>No hay modelos</mat-option>
+        } @if (!currentBrand) {
+        <mat-option disabled>Seleccione una marca</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
   </form>
 </app-form-cms>

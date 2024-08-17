@@ -1,5 +1,6 @@
 import {
   Component,
+  effect,
   Inject,
   Injectable,
   input,
@@ -41,23 +42,28 @@ import Swal from 'sweetalert2';
 export class FormCmsComponent {
   dataItem?: any;
   data: InputSignal<formModalDto> = input.required();
-  constructor() {}
-
-  ngOnInit(): void {
-    this.dataItem = this.data().data;
-    if (this.dataItem) {
-      let DATA = JSON.parse(JSON.stringify(this.dataItem));
-      delete DATA.id;
-      DATA = dtoToCreationDto(DATA);
-      console.log('DATA', DATA);
-      this.data().form.patchValue(DATA);
-    }
+  constructor() {
+    effect(() => {
+      if (this.data() == undefined) return;
+      const data = this.data();
+      this.dataItem = data.data;
+      if (this.dataItem) {
+        let DATA = JSON.parse(JSON.stringify(this.dataItem));
+        delete DATA.id;
+        DATA = dtoToCreationDto(DATA);
+        if (data.mapEdit) DATA = data.mapEdit!(DATA);
+        data.form.patchValue(DATA);
+        if (data.finalizeEdit) data.finalizeEdit!();
+      }
+    });
   }
+
+  ngOnInit(): void {}
   cleanForm() {
     const emptyValues: any = {};
     // Recorre todos los controles del formulario y establece cada uno a una cadena vacía
     Object.keys(this.data().form.controls).forEach((key) => {
-      emptyValues[key] = ''; // Establece cada control a un valor vacío
+      emptyValues[key] = null; // Establece cada control a un valor vacío
     });
 
     this.data().form.patchValue(emptyValues);
@@ -72,15 +78,20 @@ export class FormCmsComponent {
         icon: 'question',
       });
       if ((await result).isConfirmed) {
+        let DATA = this.data().form.value;
+        if (this.data().map) {
+          DATA = this.data().map!(DATA);
+          console.log('DATA', DATA);
+        }
         if (this.dataItem) {
           this.data()
-            .put(this.dataItem.id!, this.data().form.value)
+            .put(this.dataItem.id!, DATA)
             .subscribe((res: any) => {
               this.closeDialog();
             });
         } else {
           this.data()
-            .post(this.data().form.value)
+            .post(DATA)
             .subscribe((res: any) => {
               this.closeDialog();
             });

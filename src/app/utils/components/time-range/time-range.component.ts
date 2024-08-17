@@ -1,4 +1,4 @@
-import { Component, Optional, Self } from '@angular/core';
+import { Component, OnInit, Optional, Self } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,7 +27,7 @@ import { TimeRangeInterface } from './time-range.interface';
   templateUrl: './time-range.component.html',
   styleUrl: './time-range.component.scss',
 })
-export class TimeRangeComponent implements ControlValueAccessor {
+export class TimeRangeComponent implements ControlValueAccessor, OnInit {
   constructor(
     @Optional() @Self() private ngControl: NgControl,
     private fb: FormBuilder
@@ -49,11 +49,12 @@ export class TimeRangeComponent implements ControlValueAccessor {
   form!: FormGroup;
   onTouch?: Function;
   onWrite?: Function;
-  writeValue(obj: TimeRangeInterface): void {
+  writeValue(obj?: TimeRangeInterface): void {
+    this.createForm();
     if (obj) {
       this.form.patchValue(obj);
     } else {
-      this.form.patchValue({ init: '', end: '' });
+      this.form.patchValue({ init: null, end: null });
     }
   }
   registerOnChange(fn: any): void {
@@ -63,10 +64,13 @@ export class TimeRangeComponent implements ControlValueAccessor {
     this.onTouch = fn;
   }
   setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
+    if (this.form)
+      if (isDisabled) this.form.disable();
+      else this.form.enable();
   }
 
-  ngOnInit(): void {
+  createForm() {
+    if (this.form) return;
     this.form = this.fb.group(
       {
         init: ['', [Validators.required]],
@@ -76,14 +80,18 @@ export class TimeRangeComponent implements ControlValueAccessor {
         validators: this.rangeForm(),
       }
     );
+  }
 
-    if (this.ngControl?.control)
-      this.form.setValidators(this.ngControl.control.validator!);
-    this.form.updateValueAndValidity();
+  ngOnInit(): void {
+    this.createForm();
+
+    // if (this.ngControl?.control)
+    // this.form.setValidators(this.ngControl.control.validator!);
+    // this.form.updateValueAndValidity();
 
     this.form.valueChanges.subscribe((value) => {
       this.onTouch?.();
-      if (value.init === '' || value.end === '') {
+      if (value.init === '' || value.end === '' || this.form.invalid) {
         this.onWrite?.(null);
         return;
       }

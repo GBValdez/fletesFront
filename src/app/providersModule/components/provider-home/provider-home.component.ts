@@ -26,6 +26,11 @@ export class ProviderHomeComponent implements OnInit {
           click: '/session/station-home',
           icon: 'edit_location',
         },
+        {
+          text: 'Editar productos',
+          click: '/session/provider-home/product',
+          icon: 'shopping_cart',
+        },
       ],
     };
   }

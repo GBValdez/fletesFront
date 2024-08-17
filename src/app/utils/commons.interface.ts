@@ -3,6 +3,7 @@ import { depCatalogueInterface } from './modules/catalogues/catalogue.Interface'
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { sideMenuInterface } from './side-menu/side-menu.interface';
+import { ActivatedRoute } from '@angular/router';
 
 export interface catalogueInterface extends dtoCommons<number | string> {
   name: string;
@@ -54,6 +55,7 @@ export interface homeSvc {
   delete(id: number): Observable<any>;
   formComponent: any;
   submenu?: menuBasicInterface[];
+  query?: any;
 }
 
 export interface formModalDto {
@@ -66,6 +68,11 @@ export interface formModalDto {
   map?: (data: any) => any;
   mapEdit?: (data: any) => any;
   finalizeEdit?: () => void;
+}
+
+export interface infoModalDto<t> {
+  routerAct: ActivatedRoute;
+  data: t;
 }
 
 export interface menuBasicInterface {

@@ -105,6 +105,14 @@ export const routes: Routes = [
           ).then((m) => m.ProviderHomeComponent),
       },
       {
+        path: 'provider-home/product/:id',
+        loadComponent: () =>
+          import(
+            '@providersModule/components/provider-product-home/provider-product-home.component'
+          ).then((m) => m.ProviderProductHomeComponent),
+      },
+
+      {
         path: 'product-home',
         loadComponent: () =>
           import('@product/pages/product-home/product-home.component').then(

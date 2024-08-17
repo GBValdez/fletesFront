@@ -1,0 +1,11 @@
+<app-home-cms [homeSvc]="homeSvc" [templateRef]="cellTemplate"></app-home-cms>
+<ng-template #cellTemplate let-element>
+  <p class="subtitleItem">Nombre:</p>
+  {{ element.product.name }}
+  <p class="subtitleItem">Marca:</p>
+  {{ element.product.brand.name }}
+  <p class="subtitleItem">Categoría:</p>
+  {{ element.product.category.name }}
+  <p class="subtitleItem">Precio:</p>
+  {{ element.price }}
+</ng-template>

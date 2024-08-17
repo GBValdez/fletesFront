@@ -52,6 +52,7 @@ export class HomeCmsComponent {
       .get({
         pageNumber: pageNumber + 1,
         pageSize,
+        query: this.homeSvc()?.query,
       })
       .subscribe((res: pagDto<any>) => {
         if (res.total > 0) {

@@ -20,6 +20,13 @@ export class ProductHomeComponent implements OnInit {
       get: this.svc.get.bind(this.svc),
       delete: this.svc.delete.bind(this.svc),
       formComponent: ProductFormComponentComponent,
+      submenu: [
+        {
+          text: 'Vehiculos Compatibles',
+          icon: 'directions_car',
+          click: '/session/product-home/vehicle',
+        },
+      ],
     };
   }
 }

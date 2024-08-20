@@ -1,0 +1,22 @@
+<app-form-cms [data]="dataInfo">
+  <form [formGroup]="form">
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Tipo de vehículo</mat-label>
+      <mat-select formControlName="typeVehicleId">
+        @for (item of typeVehicles; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Cantidad capaz</mat-label>
+      <input matInput formControlName="quantity" appOnlyNumberInput />
+      @if (form.get("quantity")!.hasError("required")) {
+      <mat-error>El campo es requerido</mat-error>
+      } @else if (form.get("quantity")!.hasError("min")) {
+      <mat-error>L cantidad capaz debe ser mayor a 0</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</app-form-cms>

@@ -120,6 +120,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'product-home/vehicle/:id',
+        loadComponent: () =>
+          import(
+            '@product/pages/product-vehicle-home/product-vehicle-home.component'
+          ).then((m) => m.ProductVehicleHomeComponent),
+      },
+      {
         path: 'station-home/:providerId',
         loadComponent: () =>
           import('@station/pages/station-home/station-home.component').then(

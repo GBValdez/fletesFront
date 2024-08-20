@@ -8,7 +8,6 @@ interface providerProductDtoBase {
 export interface providerProductDto extends providerProductDtoBase {
   product: productDto;
   provider: providerDto;
-  providerId: number;
 }
 
 export interface providerProductDtoCreation extends providerProductDtoBase {

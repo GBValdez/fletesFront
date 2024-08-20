@@ -1,1 +1,22 @@
-<p>provider-product-form works!</p>
+<app-form-cms [data]="dataInfo">
+  <form [formGroup]="form">
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Producto</mat-label>
+      <mat-select formControlName="productId">
+        @for (item of products; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Precio</mat-label>
+      <input matInput formControlName="price" appOnlyNumberInput />
+      @if (form.get("price")!.hasError("required")) {
+      <mat-error>El campo es requerido</mat-error>
+      } @else if (form.get("price")!.hasError("min")) {
+      <mat-error>El precio debe ser mayor a 0</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</app-form-cms>

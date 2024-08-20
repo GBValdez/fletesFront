@@ -12,12 +12,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { clickTypeBasic, homeSvc, pagDto } from '@utils/commons.interface';
+import {
+  clickTypeBasic,
+  homeSvc,
+  infoModalDto,
+  pagDto,
+} from '@utils/commons.interface';
 import Swal from 'sweetalert2';
 import { NgTemplateOutlet } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { clickType } from '@utils/side-menu/side-menu.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-cms',
@@ -35,7 +40,11 @@ import { Router } from '@angular/router';
   styleUrl: './home-cms.component.scss',
 })
 export class HomeCmsComponent {
-  constructor(private dialog: MatDialog, private route: Router) {}
+  constructor(
+    private dialog: MatDialog,
+    private route: Router,
+    private routeAct: ActivatedRoute
+  ) {}
   data: any[] = [];
   pageNumber: number = 0;
   pageSize: number = 10;
@@ -90,11 +99,16 @@ export class HomeCmsComponent {
   }
 
   openForm(item?: any) {
+    const DATA: infoModalDto<any> = {
+      routerAct: this.routeAct,
+      data: item,
+    };
+
     this.dialog
       .open(this.homeSvc().formComponent, {
         width: '60%',
         minWidth: '280px',
-        data: item,
+        data: DATA,
       })
       .afterClosed()
       .subscribe((res) => {

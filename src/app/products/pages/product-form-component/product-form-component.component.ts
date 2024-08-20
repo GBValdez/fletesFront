@@ -6,7 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { productDto } from '@product/interface/product.interface';
 import { ProductService } from '@product/services/product.service';
-import { catalogueInterface, formModalDto } from '@utils/commons.interface';
+import {
+  catalogueInterface,
+  formModalDto,
+  infoModalDto,
+} from '@utils/commons.interface';
 import { FormCmsComponent } from '@utils/components/form-cms/form-cms.component';
 import { OnlyNumberInputDirective } from '@utils/directivas/only-number-input.directive';
 import { CatalogueService } from '@utils/modules/catalogues/services/catalogue.service';
@@ -30,7 +34,7 @@ export class ProductFormComponentComponent {
   categories: catalogueInterface[] = [];
   brands: catalogueInterface[] = [];
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: productDto,
+    @Inject(MAT_DIALOG_DATA) public data: infoModalDto<productDto>,
     private fb: FormBuilder,
     private matDialog: MatDialogRef<ProductFormComponentComponent>,
     private svc: ProductService,
@@ -47,7 +51,7 @@ export class ProductFormComponentComponent {
         brandProductId: ['', [Validators.required]],
         categoryId: ['', [Validators.required]],
       }),
-      data: this.data,
+      data: this.data.data,
       dialogRef: this.matDialog,
       post: this.svc.post.bind(this.svc),
       put: this.svc.put.bind(this.svc),

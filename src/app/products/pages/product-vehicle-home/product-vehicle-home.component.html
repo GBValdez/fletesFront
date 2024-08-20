@@ -1,0 +1,7 @@
+<app-home-cms [homeSvc]="homeSvc" [templateRef]="cellTemplate"></app-home-cms>
+<ng-template #cellTemplate let-element>
+  <p class="subtitleItem">Tipo de vehículo:</p>
+  {{ element.typeVehicle.name }}
+  <p class="subtitleItem">Cantidad capaz:</p>
+  {{ element.quantity }}
+</ng-template>

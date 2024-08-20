@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { providerDto } from '@providersModule/interface/provider.interface';
 import { ProviderService } from '@providersModule/services/provider.service';
-import { formModalDto } from '@utils/commons.interface';
+import { formModalDto, infoModalDto } from '@utils/commons.interface';
 import { FormCmsComponent } from '@utils/components/form-cms/form-cms.component';
 import { OnlyNumberInputDirective } from '@utils/directivas/only-number-input.directive';
 
@@ -25,7 +25,7 @@ import { OnlyNumberInputDirective } from '@utils/directivas/only-number-input.di
 export class ProviderFormComponent implements OnInit {
   public dataInfo!: formModalDto;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: providerDto,
+    @Inject(MAT_DIALOG_DATA) public data: infoModalDto<providerDto>,
     private fb: FormBuilder,
     private matDialog: MatDialogRef<ProviderFormComponent>,
     private svc: ProviderService
@@ -42,7 +42,7 @@ export class ProviderFormComponent implements OnInit {
         tel: ['', [Validators.required, Validators.maxLength(8)]],
         email: ['', [Validators.required, Validators.email]],
       }),
-      data: this.data,
+      data: this.data.data,
       dialogRef: this.matDialog,
       post: this.svc.post.bind(this.svc),
       put: this.svc.put.bind(this.svc),

@@ -14,6 +14,7 @@ import { DriverService } from '@drivers/services/driver.service';
 import {
   catalogueChildInterface,
   formModalDto,
+  infoModalDto,
 } from '@utils/commons.interface';
 import { FormCmsComponent } from '@utils/components/form-cms/form-cms.component';
 import { TimeRangeComponent } from '@utils/components/time-range/time-range.component';
@@ -41,7 +42,7 @@ export class DriverFormComponent implements OnInit {
   currentBrand: catalogueChildInterface | null = null;
   form!: FormGroup;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: driverDto,
+    @Inject(MAT_DIALOG_DATA) public data: infoModalDto<driverDto>,
     private fb: FormBuilder,
     private matDialog: MatDialogRef<DriverFormComponent>,
     private svc: DriverService,
@@ -52,7 +53,7 @@ export class DriverFormComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       userId: [
-        { value: '', disabled: this.data != undefined },
+        { value: '', disabled: this.data.data != undefined },
         [Validators.required, Validators.maxLength(50)],
       ],
       nit: ['', [Validators.required, Validators.maxLength(8)]],
@@ -68,13 +69,13 @@ export class DriverFormComponent implements OnInit {
     });
     this.catalogueSvc.get('MDV', 0, 10, { all: true }).subscribe((data) => {
       this.brands = data.items;
-      if (this.data) {
-        this.openBrand(this.data.brand.id as number);
+      if (this.data.data) {
+        this.openBrand(this.data.data.brand.id as number);
       }
       this.dataInfo = {
         title: 'proveedor',
         form: this.form,
-        data: this.data,
+        data: this.data.data,
         dialogRef: this.matDialog,
         post: this.svc.post.bind(this.svc),
         put: this.svc.put.bind(this.svc),
@@ -85,7 +86,7 @@ export class DriverFormComponent implements OnInit {
             openingTime: init,
             closingTime: end,
           };
-          if (this.data) dataEnd.userId = '-------';
+          if (this.data.data) dataEnd.userId = '-------';
           return dataEnd;
         },
         mapEdit: (data: any) => {

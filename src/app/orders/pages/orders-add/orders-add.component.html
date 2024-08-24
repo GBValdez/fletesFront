@@ -1,0 +1,12 @@
+<section class="flex flex-wrap">
+  @for (product of products; track $index) {
+  <app-card-product [product]="product"></app-card-product>
+  }
+  <button
+    (click)="openCar()"
+    class="fixed right-[20px] bottom-[20px] bg-orange-500 text-white font-black flex justify-center items-center p-[20px] rounded-full shadow-sm shadow-black hover:bg-orange-400 disabled:bg-gray-300 disabled:cursor-not-allowed"
+    [disabled]="!anyQuantity()"
+  >
+    <mat-icon>shopping_cart</mat-icon>
+  </button>
+</section>

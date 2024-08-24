@@ -127,7 +127,7 @@ export const routes: Routes = [
           ).then((m) => m.ProductVehicleHomeComponent),
       },
       {
-        path: 'station-home/:providerId',
+        path: 'station-home/:id',
         loadComponent: () =>
           import('@station/pages/station-home/station-home.component').then(
             (m) => m.StationHomeComponent
@@ -140,6 +140,21 @@ export const routes: Routes = [
             (m) => m.DriverHomeComponent
           ),
       },
+      {
+        path: 'orders-home',
+        loadComponent: () =>
+          import('@orders/pages/orders-home/orders-home.component').then(
+            (m) => m.OrdersHomeComponent
+          ),
+      },
+      {
+        path: 'orders-add',
+        loadComponent: () =>
+          import('@orders/pages/orders-add/orders-add.component').then(
+            (m) => m.OrdersAddComponent
+          ),
+      },
+
       ...CATALOGUE_ROUTE,
     ],
   },

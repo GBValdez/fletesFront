@@ -37,6 +37,25 @@ export class GeneralMenuComponent implements OnInit {
         show: true,
       },
       {
+        text: 'Ordenes',
+        icon: 'shopping_cart',
+        child: [
+          {
+            text: 'Realizar Orden',
+            icon: 'add_shopping_cart',
+            click: '/session/orders-add',
+            show: true,
+          },
+          {
+            text: 'Historial de Ordenes',
+            icon: 'history',
+            click: '/session/orders-home',
+            show: true,
+          },
+        ],
+        show: true,
+      },
+      {
         text: 'Administrador',
         icon: 'admin_panel_settings',
         show: res?.roles.includes('ADMINISTRATOR'),

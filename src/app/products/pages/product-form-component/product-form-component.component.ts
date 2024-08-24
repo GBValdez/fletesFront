@@ -50,6 +50,7 @@ export class ProductFormComponentComponent {
         weight: ['', [Validators.required]],
         brandProductId: ['', [Validators.required]],
         categoryId: ['', [Validators.required]],
+        imgUrl: ['', [Validators.required]],
       }),
       data: this.data.data,
       dialogRef: this.matDialog,

@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <mat-card class="w-full">
+    <mat-card-header>
+      <mat-card-title><p class="title">Carrito de compras</p></mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <section class="flex flex-wrap mt-[5px]">
+        @if (myProducts.length>0) { @for (item of myProducts; track $index) {
+
+        <app-card-product
+          [product]="item"
+          (eventQuantity)="afterEdit($event)"
+        ></app-card-product>
+        }} @else {
+        <p class="text-center">No hay productos en el carrito</p>
+        }
+      </section>
+      <section class="w-full flex justify-end">
+        <button mat-raised-button class="m-[2px]" mat-dialog-close color="warn">
+          Cerrar
+        </button>
+        <button
+          mat-raised-button
+          class="m-[2px]"
+          (click)="imitateBuy()"
+          [disabled]="myProducts.length == 0"
+        >
+          Imitar pago
+        </button>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

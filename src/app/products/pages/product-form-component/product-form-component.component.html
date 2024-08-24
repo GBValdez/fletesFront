@@ -45,5 +45,22 @@
       </mat-select>
       <mat-error>El campo es requerido</mat-error>
     </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Imagen</mat-label>
+      <input
+        placeholder="Inserte la url de una imagen"
+        matInput
+        formControlName="imgUrl"
+      />
+    </mat-form-field>
+    @if (dataInfo.form.get("imgUrl")?.valid) {
+    <h3 class="subtitleItem">Previsualización</h3>
+    <img
+      [src]="dataInfo.form.get('imgUrl')!.value"
+      class="w-full rounded-lg"
+      alt="Url no valida"
+    />
+    }
+    <img src="" alt="" />
   </form>
 </app-form-cms>

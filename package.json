@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
     "@types/crypto-js": "^4.2.2",
+    "@types/google.maps": "^3.55.12",
     "crypto-js": "^4.2.0",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",

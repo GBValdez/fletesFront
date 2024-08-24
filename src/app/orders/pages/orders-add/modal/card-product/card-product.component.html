@@ -1,0 +1,22 @@
+<div
+  class="rounded-xl overflow-hidden shadow-sm shadow-black m-[5px] h-[150px] w-full sm:w-[150px] bg-orange-600 cursor-pointer"
+  (click)="clickProduct()"
+>
+  <div
+    [ngStyle]="{ 'background-image': toUrl(product().imgUrl) }"
+    class="w-full sm:w-[150px] h-[120px] bg-cover bg-center relative"
+  >
+    <div
+      class="bg-orange-600 absolute box-content min-w-[25px] h-[25px] flex justify-center items-center rounded-full right-[7px] top-[7px] px-[5px]"
+    >
+      <p class="text-white">
+        {{ product().quantity }}
+      </p>
+    </div>
+  </div>
+  <div class="h-[30px] flex justify-center items-center">
+    <p class="text-white text-center font-black text-sm">
+      {{ product().name }}
+    </p>
+  </div>
+</div>

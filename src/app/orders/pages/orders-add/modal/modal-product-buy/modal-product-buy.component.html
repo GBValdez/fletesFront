@@ -1,0 +1,58 @@
+<section class="w-full p-[20px]">
+  <p class="title">{{ data.name }}</p>
+  <p class="text-sm descpTitle">
+    {{ data.description }}
+  </p>
+</section>
+
+<div
+  class="w-full h-[300px] bg-cover bg-center"
+  [ngStyle]="{ 'background-image': toUrl(data.imgUrl) }"
+></div>
+<form
+  [formGroup]="form"
+  class="bg-orange-600 flex justify-center h-[80px] items-center w-full"
+>
+  <div
+    class="bg-white h-[50px] w-[50px] rounded-full font-black text-6xl flex justify-center items-center cursor-pointer"
+    (click)="pressButton(-1)"
+  >
+    <p>-</p>
+  </div>
+
+  <input
+    matInput
+    appOnlyNumberInput
+    formControlName="quantity"
+    class="bg-transparent box-content w-auto block text-white font-bold text-6xl text-center border-none outline-none"
+    size="1"
+  />
+  <div
+    class="bg-white h-[50px] w-[50px] rounded-full font-black text-5xl flex justify-center items-center cursor-pointer"
+    (click)="pressButton(1)"
+  >
+    <p>+</p>
+  </div>
+</form>
+<section>
+  <button
+    (click)="reset()"
+    class="w-[50%] bg-red-600 text-white font-black text-2xl py-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+    [disabled]="form.get('quantity')?.value === 0"
+  >
+    Eliminar
+  </button>
+
+  <button
+    class="w-[50%] bg-orange-700 text-white font-black text-2xl py-2"
+    mat-dialog-close
+  >
+    Cerrar
+  </button>
+</section>
+
+<!-- <div
+  [ngStyle]="{ 'background-image': toUrl(data.imgUrl) }"
+  class="w-full h-[300px] bg-cover bg-center"
+></div>
+<p class="bg-orange-600">Hola</p> -->

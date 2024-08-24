@@ -1,1 +1,20 @@
-<google-map></google-map>
+<h1 class="title">
+  Estaciones de
+  {{ providerName }}
+</h1>
+<app-autocomplete-google-maps></app-autocomplete-google-maps>
+<google-map
+  height="70%"
+  width="100%"
+  [options]="options"
+  (mapClick)="clickMap($event)"
+>
+  @for (item of this.stations; track $index) {
+  <map-advanced-marker
+    #markerElement="mapAdvancedMarker"
+    [position]="convertLatLng(item.cord)"
+    (mapClick)="openModal(item)"
+  >
+  </map-advanced-marker>
+  }
+</google-map>

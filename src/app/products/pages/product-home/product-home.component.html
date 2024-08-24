@@ -8,4 +8,6 @@
   {{ element.brandProduct.name }}
   <p class="subtitleItem">Categoría:</p>
   {{ element.category.name }}
+  <p class="subtitleItem">Previsualización:</p>
+  <img [src]="element.imgUrl" alt="No se pudo cargar la imagen" />
 </ng-template>

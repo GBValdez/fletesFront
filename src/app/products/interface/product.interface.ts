@@ -4,6 +4,7 @@ export interface productDtoBase {
   name: string;
   description: string;
   weight: number;
+  imgUrl: string;
 }
 
 export interface productDto extends productDtoBase {
@@ -15,4 +16,8 @@ export interface productDto extends productDtoBase {
 export interface productDtoCreate extends productDtoBase {
   brandProductId: number;
   categoryId: number;
+}
+
+export interface productDtoBuy extends productDto {
+  quantity: number;
 }

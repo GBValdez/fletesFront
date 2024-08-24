@@ -1,1 +1,38 @@
-<p>station-form works!</p>
+<app-form-cms [data]="dataInfo">
+  @if(this.canDelete){
+  <section class="w-full flex justify-end">
+    <button
+      (click)="deleteStation()"
+      mat-raised-button
+      color="warn"
+      class="mb-3"
+    >
+      Eliminar estación
+    </button>
+  </section>
+
+  }
+  <form [formGroup]="dataInfo.form">
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Teléfono</mat-label>
+      <input
+        matInput
+        formControlName="tel"
+        [maxlength]="8"
+        appOnlyNumberInput
+      />
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="email" />
+      @if (dataInfo.form.get("email")!.hasError("required")) {
+      <mat-error>El campo es requerido</mat-error>
+      } @if (dataInfo.form.get("email")!.hasError("email")) {
+      <mat-error>El correo no es válido</mat-error>
+      }
+    </mat-form-field>
+    <p>Horario</p>
+    <app-time-range formControlName="time"></app-time-range>
+  </form>
+</app-form-cms>

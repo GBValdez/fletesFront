@@ -15,6 +15,7 @@
       "@station/*":["src/app/station/*"],
       "@drivers/*":["src/app/drivers/*"],
       "@env/*": ["src/environments/*"],
+      "@orders/*": ["src/app/orders/*"],
     },
     "strict": true,
     "noImplicitOverride": true,

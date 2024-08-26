@@ -1,12 +1,24 @@
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Route, Routes } from '@angular/router';
 import { AuthGuard } from '@auth/guards/auth.guard';
+import {
+  catalogueInterface,
+  menuBasicInterface,
+} from '@utils/commons.interface';
+import { CatalogueFormComponent } from '@utils/modules/catalogues/catalogue-form/catalogue-form.component';
 import { depCatalogueInterface } from '@utils/modules/catalogues/catalogue.Interface';
 import { catalogueData } from '@utils/modules/catalogues/catalogueData';
 
 const createRouteCatalogue = (
   title: string,
   name: string,
-  dependency?: depCatalogueInterface
+  dependency?: depCatalogueInterface,
+  subMenu?: menuBasicInterface[],
+  afterComplete?: (
+    data: catalogueInterface,
+    matDialog: MatDialog,
+    matDialogRef: MatDialogRef<CatalogueFormComponent>
+  ) => void
 ): Route => {
   return {
     path: `catalogue/${name}`,
@@ -21,12 +33,20 @@ const createRouteCatalogue = (
       titleShow: title,
       typeCatalogue: name,
       dependency: dependency,
+      subMenu: subMenu,
+      afterComplete: afterComplete,
     },
     title: title,
   };
 };
 const CATALOGUE_ROUTE = catalogueData.map((catalogue) =>
-  createRouteCatalogue(catalogue.title, catalogue.name, catalogue.dependency)
+  createRouteCatalogue(
+    catalogue.title,
+    catalogue.name,
+    catalogue.dependency,
+    catalogue.subMenu,
+    catalogue.afterComplete
+  )
 );
 
 export const routes: Routes = [

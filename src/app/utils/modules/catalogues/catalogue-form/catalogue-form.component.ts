@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
   MAT_DIALOG_DATA,
+  MatDialog,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
@@ -46,7 +47,8 @@ export class CatalogueFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: catalogueModal,
     private fb: FormBuilder,
     private catalogueSvc: CatalogueService,
-    private dialogRef: MatDialogRef<CatalogueFormComponent>
+    private dialogRef: MatDialogRef<CatalogueFormComponent>,
+    private matDialog: MatDialog
   ) {}
   ngOnInit(): void {
     this.dataCatalogue = this.data;
@@ -96,6 +98,12 @@ export class CatalogueFormComponent implements OnInit {
   }
   async onSubmit() {
     if (this.form.valid) {
+      if (this.data.afterComplete) {
+        const dataCatalogue: catalogueInterface = this.form.value;
+        dataCatalogue.id = this.dataCatalogue.catalogue?.id;
+        this.data.afterComplete(dataCatalogue, this.matDialog, this.dialogRef);
+        return;
+      }
       const result = Swal.fire({
         title: '¿Quieres guardar los cambios?',
         showCancelButton: true,

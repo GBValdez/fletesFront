@@ -67,11 +67,19 @@
       <mat-icon>edit</mat-icon>
       <span>Editar</span>
     </button>
+    @if (subMenu) { @for (button of subMenu; track $index) {
+    <button mat-menu-item (click)="clickSubMenu(button, catalogue)">
+      <mat-icon>{{ button.icon }}</mat-icon>
+      <span>{{ button.text }}</span>
+    </button>
+
+    } }
 
     <button mat-menu-item (click)="deleteCatalogue(catalogue)">
       <mat-icon>delete</mat-icon>
       <span>Borrar</span>
     </button>
+
     }@else{
     <button [disabled]="true" mat-menu-item>
       No puede editar ni borrar este rol

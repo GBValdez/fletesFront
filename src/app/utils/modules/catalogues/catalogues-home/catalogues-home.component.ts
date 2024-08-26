@@ -8,18 +8,22 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CatalogueFormComponent } from '../catalogue-form/catalogue-form.component';
 import { CatalogueService } from '@catalogues/services/catalogue.service';
 import { formIsEmptyValidator } from '@utils/utils';
-import { catalogueInterface, catalogueModal } from '@utils/commons.interface';
+import {
+  catalogueInterface,
+  catalogueModal,
+  menuBasicInterface,
+} from '@utils/commons.interface';
 import { MatSelectModule } from '@angular/material/select';
 import { depCatalogueInterface } from '../catalogue.Interface';
 
@@ -45,13 +49,20 @@ export class CataloguesHomeComponent implements OnInit {
     private actRouter: ActivatedRoute,
     private fb: FormBuilder,
     private catalogueSvc: CatalogueService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
   title: string = '';
   dependency?: depCatalogueInterface;
   typeCatalogue: string = '';
   form!: FormGroup;
   catalogues: catalogueInterface[] = [];
+  subMenu: menuBasicInterface[] = [];
+  afterComplete?: (
+    data: catalogueInterface,
+    matDialog: MatDialog,
+    matDialogRef: MatDialogRef<CatalogueFormComponent>
+  ) => void;
   pageNumber: number = 0;
   pageSize: number = 10;
   catalogueSize: number = 0;
@@ -63,7 +74,17 @@ export class CataloguesHomeComponent implements OnInit {
     this.title = this.actRouter.snapshot.data['titleShow'];
     this.typeCatalogue = this.actRouter.snapshot.data['typeCatalogue'];
     this.dependency = this.actRouter.snapshot.data['dependency'];
+    this.subMenu = this.actRouter.snapshot.data['subMenu'];
+    this.afterComplete = this.actRouter.snapshot.data['afterComplete'];
     this.getCatalogues(this.pageNumber, this.pageSize);
+  }
+
+  clickSubMenu(subMenu: menuBasicInterface, catalogueItem: catalogueInterface) {
+    if (typeof subMenu.click === 'string') {
+      this.router.navigate([subMenu.click, catalogueItem.id]);
+    } else {
+      subMenu.click(catalogueItem.id as number);
+    }
   }
 
   getCatalogues(pageNumber: number, pageSize: number) {
@@ -120,6 +141,7 @@ export class CataloguesHomeComponent implements OnInit {
       title: this.title,
       catalogue,
       dependency: this.dependency,
+      afterComplete: this.afterComplete,
     };
     this.dialog
       .open(CatalogueFormComponent, {

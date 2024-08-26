@@ -1,0 +1,22 @@
+<app-form-cms [data]="dataInfo">
+  <form [formGroup]="form">
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Tipo de gasolina</mat-label>
+      <mat-select formControlName="gasolineTypeId">
+        @for (item of gasolineTypes; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Litros de gasolina que consume por kilómetro</mat-label>
+      <input matInput formControlName="gasolineLtsKm" appOnlyNumberInput />
+      @if (form.get("gasolineLtsKm")!.hasError("required")) {
+      <mat-error>El campo es requerido</mat-error>
+      } @if(form.get("gasolineLtsKm")!.hasError("min")) {
+      <mat-error>El valor mínimo es 0.01</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</app-form-cms>

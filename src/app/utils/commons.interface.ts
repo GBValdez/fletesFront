@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs';
 import { depCatalogueInterface } from './modules/catalogues/catalogue.Interface';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { sideMenuInterface } from './side-menu/side-menu.interface';
 import { ActivatedRoute } from '@angular/router';
+import { CatalogueFormComponent } from './modules/catalogues/catalogue-form/catalogue-form.component';
 
 export interface catalogueInterface extends dtoCommons<number | string> {
   name: string;
@@ -26,6 +27,11 @@ export interface catalogueModal {
   title: string;
   catalogue?: catalogueInterface;
   dependency?: depCatalogueInterface;
+  afterComplete?: (
+    data: catalogueInterface,
+    matDialog: MatDialog,
+    matDialogRef: MatDialogRef<CatalogueFormComponent>
+  ) => void;
 }
 export interface pagDto<T> {
   items: T[];

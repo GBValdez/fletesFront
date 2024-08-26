@@ -16,7 +16,6 @@ interface driverDtoBase {
 
 export interface driverDto extends driverDtoBase {
   id: number;
-  brand: catalogueInterface;
   model: catalogueInterface;
   user?: UserDto;
 }

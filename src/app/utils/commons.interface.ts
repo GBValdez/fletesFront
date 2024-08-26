@@ -17,6 +17,7 @@ export interface catalogueChildInterface extends catalogueInterface {
   children?: catalogueInterface[];
 }
 export interface catalogueQuery {
+  id?: number;
   name?: string;
   all?: boolean;
   catalogueParentId?: number;

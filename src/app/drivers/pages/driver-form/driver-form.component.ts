@@ -67,10 +67,26 @@ export class DriverFormComponent implements OnInit {
       brandId: ['', [Validators.required]],
       modelId: [null, [Validators.required]],
     });
+
     this.catalogueSvc.get('MDV', 0, 10, { all: true }).subscribe((data) => {
       this.brands = data.items;
       if (this.data.data) {
-        this.openBrand(this.data.data.brand.id as number);
+        this.catalogueSvc
+          .get('MODELDV', 0, 10, {
+            all: true,
+            id: this.data.data.model.id as number,
+          })
+          .subscribe((resModel) => {
+            console.log('resModel', resModel);
+            this.openBrand(resModel.items[0].catalogueParent?.id as number); // this.form.patchValue({
+            this.form.patchValue({
+              brandId: resModel.items[0].catalogueParent?.id as number,
+              modelId: this.data.data.model.id,
+            });
+            //   brandId: this.data.data.model.catalogueParentId,
+            //   modelId: this.data.data.model.id,
+            // });
+          });
       }
       this.dataInfo = {
         title: 'proveedor',

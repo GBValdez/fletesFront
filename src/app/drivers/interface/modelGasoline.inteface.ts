@@ -7,9 +7,11 @@ interface modelGasolineDtoBase {
 export interface modelGasolineDto extends modelGasolineDtoBase {
   gasolineType: catalogueInterface;
   model: catalogueInterface;
+  typeVehicle: catalogueInterface;
 }
 
 export interface modelGasolineDtoCreate extends modelGasolineDtoBase {
   gasolineTypeId: string;
   modelId: number;
+  typeVehicleId: number;
 }

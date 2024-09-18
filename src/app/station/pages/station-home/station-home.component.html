@@ -2,12 +2,17 @@
   Estaciones de
   {{ providerName }}
 </h1>
-<app-autocomplete-google-maps></app-autocomplete-google-maps>
+<app-autocomplete-google-maps
+  class="w-full"
+  (changeComplete)="autoComplete($event)"
+></app-autocomplete-google-maps>
 <google-map
   height="70%"
   width="100%"
   [options]="options"
   (mapClick)="clickMap($event)"
+  [center]="center"
+  [zoom]="zoom"
 >
   @for (item of this.stations; track $index) {
   <map-advanced-marker

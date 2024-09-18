@@ -11,17 +11,18 @@ interface driverDtoBase {
   openingTime: string;
   closingTime: string;
   stopLimit: number;
-  maximumWeight: number;
 }
 
 export interface driverDto extends driverDtoBase {
   id: number;
   model: catalogueInterface;
   user?: UserDto;
+  countryOpt: catalogueInterface;
 }
 
 export interface driverCreateDto extends driverDtoBase {
   brandId: number;
   modelId: number;
   userId: string;
+  countryOptId: number;
 }

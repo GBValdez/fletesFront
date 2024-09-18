@@ -52,11 +52,11 @@
     </mat-form-field>
     <p>Horario</p>
     <app-time-range formControlName="time"></app-time-range>
-    <mat-form-field class="w-full mb-3">
+    <!-- <mat-form-field class="w-full mb-3">
       <mat-label>Peso máximo</mat-label>
       <input matInput formControlName="maximumWeight" appOnlyNumberInput />
       <mat-error>El campo es requerido</mat-error>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <mat-form-field class="w-full mb-3">
       <mat-label> Limite de paradas</mat-label>
@@ -82,6 +82,17 @@
         <mat-option disabled>No hay modelos</mat-option>
         } @if (!currentBrand) {
         <mat-option disabled>Seleccione una marca</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>País donde opera</mat-label>
+      <mat-select formControlName="countryOptId">
+        @for (item of countries; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        } @if (countries.length === 0) {
+        <mat-option disabled>No hay países registrados</mat-option>
         }
       </mat-select>
       <mat-error>El campo es requerido</mat-error>

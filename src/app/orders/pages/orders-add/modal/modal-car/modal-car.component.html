@@ -5,6 +5,36 @@
     </mat-card-header>
 
     <mat-card-content>
+      <h2 class="titleItem">Ubicación de entrega</h2>
+      <app-autocomplete-google-maps
+        (changeComplete)="autoComplete($event)"
+      ></app-autocomplete-google-maps>
+      <section>
+        <google-map
+          width="100%"
+          [options]="options"
+          (mapClick)="clickMap($event)"
+          [center]="center"
+          [zoom]="zoom"
+        >
+          @if (cords) {
+          <map-advanced-marker
+            #markerElement="mapAdvancedMarker"
+            [position]="cords"
+          >
+          </map-advanced-marker>
+          }
+        </google-map>
+      </section>
+      <button
+        (click)="setCurrentLocation()"
+        class="w-full mt-2"
+        mat-raised-button
+      >
+        <mat-icon>my_location</mat-icon>
+        Marcar mi posición
+      </button>
+      <h2 class="titleItem">Productos</h2>
       <section class="flex flex-wrap mt-[5px]">
         @if (myProducts.length>0) { @for (item of myProducts; track $index) {
 
@@ -16,15 +46,30 @@
         <p class="text-center">No hay productos en el carrito</p>
         }
       </section>
-      <section class="w-full flex justify-end">
-        <button mat-raised-button class="m-[2px]" mat-dialog-close color="warn">
+
+      <section class="w-full flex justify-end flex-wrap">
+        <button
+          mat-raised-button
+          class="m-[2px] w-full"
+          mat-dialog-close
+          color="warn"
+        >
           Cerrar
         </button>
         <button
+          class="w-full"
           mat-raised-button
-          class="m-[2px]"
-          (click)="imitateBuy()"
+          (click)="canEmptyCar()"
           [disabled]="myProducts.length == 0"
+        >
+          <mat-icon>delete</mat-icon>
+          Vaciar carrito
+        </button>
+        <button
+          mat-raised-button
+          class="m-[2px] w-full"
+          (click)="imitateBuy()"
+          [disabled]="myProducts.length == 0 || !cords"
         >
           Imitar pago
         </button>

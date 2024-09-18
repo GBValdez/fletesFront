@@ -53,7 +53,7 @@ export class GeneralMenuComponent implements OnInit {
             show: true,
           },
         ],
-        show: true,
+        show: res?.roles.includes('userNormal'),
       },
       {
         text: 'Administrador',

@@ -38,6 +38,7 @@ import { CatalogueService } from '@utils/modules/catalogues/services/catalogue.s
 })
 export class DriverFormComponent implements OnInit {
   public dataInfo!: formModalDto;
+  public countries: catalogueChildInterface[] = [];
   public brands: catalogueChildInterface[] = [];
   currentBrand: catalogueChildInterface | null = null;
   form!: FormGroup;
@@ -50,6 +51,7 @@ export class DriverFormComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     // alert('ProviderFormComponent');
+    console.log('this.data', this.data);
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50)]],
       userId: [
@@ -62,62 +64,67 @@ export class DriverFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       address: ['', [Validators.required, Validators.maxLength(250)]],
       time: [null, [Validators.required]],
-      maximumWeight: ['', [Validators.required]],
+      // maximumWeight: ['', [Validators.required]],
       stopLimit: ['', [Validators.required]],
       brandId: ['', [Validators.required]],
       modelId: [null, [Validators.required]],
+      countryOptId: ['', [Validators.required]],
     });
-
-    this.catalogueSvc.get('MDV', 0, 10, { all: true }).subscribe((data) => {
-      this.brands = data.items;
-      if (this.data.data) {
-        this.catalogueSvc
-          .get('MODELDV', 0, 10, {
-            all: true,
-            id: this.data.data.model.id as number,
-          })
-          .subscribe((resModel) => {
-            console.log('resModel', resModel);
-            this.openBrand(resModel.items[0].catalogueParent?.id as number); // this.form.patchValue({
-            this.form.patchValue({
-              brandId: resModel.items[0].catalogueParent?.id as number,
-              modelId: this.data.data.model.id,
-            });
-            //   brandId: this.data.data.model.catalogueParentId,
-            //   modelId: this.data.data.model.id,
-            // });
-          });
-      }
-      this.dataInfo = {
-        title: 'proveedor',
-        form: this.form,
-        data: this.data.data,
-        dialogRef: this.matDialog,
-        post: this.svc.post.bind(this.svc),
-        put: this.svc.put.bind(this.svc),
-        map: (data: any) => {
-          const { init, end } = data.time;
-          let dataEnd = {
-            ...data,
-            openingTime: init,
-            closingTime: end,
-          };
-          if (this.data.data) dataEnd.userId = '-------';
-          return dataEnd;
-        },
-        mapEdit: (data: any) => {
-          console.log('data', data.user);
-          return {
-            ...data,
-            time: {
-              init: data.openingTime,
-              end: data.closingTime,
+    this.catalogueSvc
+      .get('CTR', 0, 10, { all: true })
+      .subscribe((dataCountries) => {
+        this.countries = dataCountries.items;
+        this.catalogueSvc.get('MDV', 0, 10, { all: true }).subscribe((data) => {
+          this.brands = data.items;
+          if (this.data.data) {
+            this.catalogueSvc
+              .get('MODELDV', 0, 10, {
+                all: true,
+                id: this.data.data.model.id as number,
+              })
+              .subscribe((resModel) => {
+                console.log('resModel', resModel);
+                this.openBrand(resModel.items[0].catalogueParent?.id as number); // this.form.patchValue({
+                this.form.patchValue({
+                  brandId: resModel.items[0].catalogueParent?.id as number,
+                  modelId: this.data.data.model.id,
+                });
+                //   brandId: this.data.data.model.catalogueParentId,
+                //   modelId: this.data.data.model.id,
+                // });
+              });
+          }
+          this.dataInfo = {
+            title: 'proveedor',
+            form: this.form,
+            data: this.data.data,
+            dialogRef: this.matDialog,
+            post: this.svc.post.bind(this.svc),
+            put: this.svc.put.bind(this.svc),
+            map: (data: any) => {
+              const { init, end } = data.time;
+              let dataEnd = {
+                ...data,
+                openingTime: init,
+                closingTime: end,
+              };
+              if (this.data.data) dataEnd.userId = '-------';
+              return dataEnd;
             },
-            userId: data.user.userName,
+            mapEdit: (data: any) => {
+              console.log('infoXd', data.user);
+              return {
+                ...data,
+                time: {
+                  init: data.openingTime,
+                  end: data.closingTime,
+                },
+                userId: data.user.userName,
+              };
+            },
           };
-        },
-      };
-    });
+        });
+      });
   }
 
   openBrand(idBrand?: number): void {

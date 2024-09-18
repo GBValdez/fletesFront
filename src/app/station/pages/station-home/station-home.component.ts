@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StationService } from '../../services/station.service';
-import { homeSvc, infoModalDto } from '@utils/commons.interface';
+import {
+  catalogueInterface,
+  homeSvc,
+  infoModalDto,
+} from '@utils/commons.interface';
 import { StationFormComponent } from '../station-form/station-form.component';
 import { HomeCmsComponent } from '@utils/components/home-cms/home-cms.component';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -14,6 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ProviderService } from '@providersModule/services/provider.service';
 import { AutocompleteGoogleMapsComponent } from '@utils/components/autocomplete-google-maps/autocomplete-google-maps.component';
+import { CatalogueService } from '@utils/modules/catalogues/services/catalogue.service';
+import { GeoCodingService } from '@station/services/geo-coding.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-station-home',
@@ -23,12 +30,15 @@ import { AutocompleteGoogleMapsComponent } from '@utils/components/autocomplete-
   styleUrl: './station-home.component.scss',
 })
 export class StationHomeComponent implements OnInit {
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom: number = 4;
   providerName: string = '';
   constructor(
     private matDialog: MatDialog,
     private routerAct: ActivatedRoute,
     private stationSvc: StationService,
-    private providerSvc: ProviderService
+    private providerSvc: ProviderService,
+    private geoCodingSvc: GeoCodingService
   ) {}
   ngOnInit(): void {
     const providerId = this.routerAct.snapshot.params['id'];
@@ -70,6 +80,7 @@ export class StationHomeComponent implements OnInit {
     const DATA: any = {
       cord: cords,
       id: -1,
+      country: {},
     };
     this.openModal(DATA);
   }
@@ -89,5 +100,10 @@ export class StationHomeComponent implements OnInit {
           this.getData();
         }
       });
+  }
+
+  autoComplete(event: google.maps.LatLng): void {
+    this.center = event.toJSON();
+    this.zoom = 15;
   }
 }

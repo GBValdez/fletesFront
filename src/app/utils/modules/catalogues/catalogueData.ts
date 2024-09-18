@@ -11,6 +11,10 @@ export const catalogueData: CatalogueRoutesInterface[] = [
     name: 'MDV',
   },
   {
+    title: 'País',
+    name: 'CTR',
+  },
+  {
     title: 'Modelo de vehículo',
     name: 'MODELDV',
     dependency: {

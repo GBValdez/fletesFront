@@ -55,7 +55,7 @@ export class OrdersAddComponent implements OnInit {
   }
   openCar() {
     this.dialog.open(ModalCarComponent, {
-      width: '50%',
+      width: '80%',
       minWidth: '300px',
       data: this.products.filter((product) => product.quantity > 0),
     });

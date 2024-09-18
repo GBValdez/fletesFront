@@ -1,6 +1,15 @@
 <app-form-cms [data]="dataInfo">
   <form [formGroup]="form">
     <mat-form-field class="w-full mb-3">
+      <mat-label>Tipo de vehículo</mat-label>
+      <mat-select formControlName="typeVehicleId">
+        @for (item of typeVehicles; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
       <mat-label>Tipo de gasolina</mat-label>
       <mat-select formControlName="gasolineTypeId">
         @for (item of gasolineTypes; track $index) {
@@ -16,6 +25,15 @@
       <mat-error>El campo es requerido</mat-error>
       } @if(form.get("gasolineLtsKm")!.hasError("min")) {
       <mat-error>El valor mínimo es 0.01</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="w-full mb-3">
+      <mat-label>Máximo de peso (kg)</mat-label>
+      <input matInput formControlName="maximumWeight" appOnlyNumberInput />
+      @if (form.get("maximumWeight")!.hasError("required")) {
+      <mat-error>El campo es requerido</mat-error>
+      } @if(form.get("maximumWeight")!.hasError("min")) {
+      <mat-error>El valor mínimo es 0.01 Kg</mat-error>
       }
     </mat-form-field>
   </form>

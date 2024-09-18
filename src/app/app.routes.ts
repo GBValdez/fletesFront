@@ -123,6 +123,7 @@ export const routes: Routes = [
           import(
             '@providersModule/components/provider-home/provider-home.component'
           ).then((m) => m.ProviderHomeComponent),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
       {
         path: 'provider-home/product/:id',
@@ -130,6 +131,7 @@ export const routes: Routes = [
           import(
             '@providersModule/components/provider-product-home/provider-product-home.component'
           ).then((m) => m.ProviderProductHomeComponent),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
 
       {
@@ -138,6 +140,7 @@ export const routes: Routes = [
           import('@product/pages/product-home/product-home.component').then(
             (m) => m.ProductHomeComponent
           ),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
       {
         path: 'product-home/vehicle/:id',
@@ -145,6 +148,7 @@ export const routes: Routes = [
           import(
             '@product/pages/product-vehicle-home/product-vehicle-home.component'
           ).then((m) => m.ProductVehicleHomeComponent),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
       {
         path: 'station-home/:id',
@@ -152,6 +156,7 @@ export const routes: Routes = [
           import('@station/pages/station-home/station-home.component').then(
             (m) => m.StationHomeComponent
           ),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
       {
         path: 'driver-home',
@@ -159,6 +164,7 @@ export const routes: Routes = [
           import('@drivers/pages/driver-home/driver-home.component').then(
             (m) => m.DriverHomeComponent
           ),
+        data: { isProtect: 20, roles: ['ADMINISTRATOR'] },
       },
       {
         path: 'orders-home',
@@ -166,6 +172,7 @@ export const routes: Routes = [
           import('@orders/pages/orders-home/orders-home.component').then(
             (m) => m.OrdersHomeComponent
           ),
+        data: { isProtect: 20, roles: ['userNormal'] },
       },
       {
         path: 'orders-add',
@@ -173,6 +180,7 @@ export const routes: Routes = [
           import('@orders/pages/orders-add/orders-add.component').then(
             (m) => m.OrdersAddComponent
           ),
+        data: { isProtect: 20, roles: ['userNormal'] },
       },
 
       ...CATALOGUE_ROUTE,

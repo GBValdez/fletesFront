@@ -35,6 +35,7 @@ export class ModelGasolineFormComponent implements OnInit {
   public dataInfo!: formModalDto;
   public form!: FormGroup;
   public gasolineTypes: catalogueInterface[] = [];
+  public typeVehicles: catalogueInterface[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: catalogueInterface,
     private catalogueSvc: CatalogueService,
@@ -45,8 +46,10 @@ export class ModelGasolineFormComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.form = this.fb.group({
+      typeVehicleId: ['', Validators.required],
       gasolineTypeId: ['', Validators.required],
       gasolineLtsKm: ['', [Validators.required, Validators.min(0.1)]],
+      maximumWeight: ['', [Validators.required, Validators.min(0.1)]],
     });
     let obs: Observable<any>;
     if (this.data.id === undefined) {
@@ -78,26 +81,33 @@ export class ModelGasolineFormComponent implements OnInit {
           let resData = undefined;
 
           if (res.items.length > 0) resData = res.items[0];
-          console.log(resData);
+          // console.log(resData);
           this.catalogueSvc
             .get('TGV', 1, 10, { all: true })
-            .subscribe((res) => {
-              this.gasolineTypes = res.items;
-              this.dataInfo = {
-                title: 'Información de la gasolina',
-                form: this.form,
-                data: resData,
-                dialogRef: this.matDialog,
-                post: this.modelGasolineSvc.post.bind(this.modelGasolineSvc),
-                put: this.modelGasolineSvc.put.bind(this.modelGasolineSvc),
-                map: (data: any) => {
-                  return {
-                    ...data,
-                    modelId: ID_FINAL,
+            .subscribe((resGasolineTypes) => {
+              this.catalogueSvc
+                .get('TDV', 1, 10, { all: true })
+                .subscribe((resTypeVehicles) => {
+                  this.gasolineTypes = resGasolineTypes.items;
+                  this.typeVehicles = resTypeVehicles.items;
+                  this.dataInfo = {
+                    title: 'Información de la gasolina',
+                    form: this.form,
+                    data: resData,
+                    dialogRef: this.matDialog,
+                    post: this.modelGasolineSvc.post.bind(
+                      this.modelGasolineSvc
+                    ),
+                    put: this.modelGasolineSvc.put.bind(this.modelGasolineSvc),
+                    map: (data: any) => {
+                      return {
+                        ...data,
+                        modelId: ID_FINAL,
+                      };
+                    },
+                    // data
                   };
-                },
-                // data
-              };
+                });
             });
         });
     });

@@ -47,14 +47,15 @@ export class InterceptorService implements HttpInterceptor {
         if (error.status === 401) {
           this.authSvc.logout();
         }
-        if (error.error.message) {
+        console.log(error);
+        if (error.error?.message) {
           Swal.fire({
             icon: 'error',
             title: 'Error',
             text: error.error.message,
           });
         }
-        if (error.error.errors) {
+        if (error.error?.errors) {
           const VALUES = Object.values(error.error.errors);
           const message = VALUES.join('\n');
 

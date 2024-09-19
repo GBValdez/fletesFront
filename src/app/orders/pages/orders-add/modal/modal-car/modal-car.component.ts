@@ -23,6 +23,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { AutocompleteGoogleMapsComponent } from '@utils/components/autocomplete-google-maps/autocomplete-google-maps.component';
 import { OrdersService } from '@orders/services/orders.service';
 import { orderDtoCreation } from '@orders/interface/order.interface';
+import { ResOrdersComponent } from '../res-orders/res-orders.component';
+import { resBestRouteModalDto } from '@drivers/interface/visit.interface';
 
 @Component({
   selector: 'app-modal-car',
@@ -53,7 +55,8 @@ export class ModalCarComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public myProducts: productDtoBuy[],
     private dialogRef: MatDialogRef<ModalCarComponent>,
     private localStorageSvc: LocalStorageService,
-    private orderSvc: OrdersService
+    private orderSvc: OrdersService,
+    private dialog: MatDialog
   ) {}
   autoComplete(event: google.maps.LatLng): void {
     this.center = event.toJSON();
@@ -93,6 +96,15 @@ export class ModalCarComponent implements OnInit {
       };
       this.orderSvc.createOrder(DATA).subscribe((res) => {
         this.emptyCar('Compra realizada con éxito');
+        const DATA: resBestRouteModalDto = {
+          ...res,
+          deliveryCord: CORDS,
+        };
+        this.dialog.open(ResOrdersComponent, {
+          data: DATA,
+          width: '80%',
+          minHeight: '280px',
+        });
       });
     }
   }

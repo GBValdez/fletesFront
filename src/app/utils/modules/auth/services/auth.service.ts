@@ -38,11 +38,9 @@ export class AuthService {
     return this.localStorageSvc.getItem('auth');
   }
   logout() {
-    if (this.hasAuth()) {
-      this.localStorageSvc.removeItem('auth');
-      this.authObs.next(null);
-      this.router.navigate(['/login']);
-    }
+    this.localStorageSvc.removeItem('auth');
+    this.authObs.next(null);
+    this.router.navigate(['/login']);
   }
   hasRoles(roles: string[]): boolean {
     const auth = this.getAuth();

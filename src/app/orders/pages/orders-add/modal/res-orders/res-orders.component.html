@@ -1,0 +1,58 @@
+<mat-dialog-content>
+  <google-map
+    height="70%"
+    width="100%"
+    [options]="options"
+    [center]="center"
+    [zoom]="zoom"
+    #mapElement
+  >
+    @for (item of this.data.stations; track $index) {
+    <map-advanced-marker
+      #markerElement="mapAdvancedMarker"
+      [position]="convertLatLng(item.cord)"
+      [title]="item.id + ' ' + item.provider.name"
+    >
+    </map-advanced-marker>
+    }
+    <map-advanced-marker
+      #markerElement="mapAdvancedMarker"
+      [position]="convertLatLng(this.data.bestRoute.originCoord)"
+      [title]="'Origen'"
+    >
+    </map-advanced-marker>
+
+    <map-advanced-marker
+      #markerElement="mapAdvancedMarker"
+      [position]="convertLatLng(this.data.deliveryCord)"
+      [title]="'Destino'"
+    >
+    </map-advanced-marker>
+  </google-map>
+
+  <section class="w-full">
+    <p>Demás conductores</p>
+    <section class="flex flex-wrap">
+      @for (item of data.routes; track $index) {
+      <mat-card class="w-[40%] m-[5px]">
+        <mat-card-header>
+          <mat-card-title>
+            <h4>Conductor: {{ item.driver.id }}</h4>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <h5>Costo total: {{ item.costTotal }} km</h5>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Estaciones:</p>
+          <ul>
+            @for (station of item.routes; track $index) {
+            <li>{{ station.station.id }}</li>
+            }
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      }
+    </section>
+  </section>
+</mat-dialog-content>

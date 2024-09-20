@@ -7,23 +7,36 @@ import {
 } from '@angular/core';
 import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import {
   resBestRouteDto,
   resBestRouteModalDto,
+  visitDto,
+  visitProductDto,
 } from '@drivers/interface/visit.interface';
+import { ModalResDetaillComponent } from '../modal-res-detaill/modal-res-detaill.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-res-orders',
   standalone: true,
-  imports: [GoogleMapsModule, MatCardModule, MatDialogModule],
+  imports: [GoogleMapsModule, MatCardModule, MatDialogModule, MatButtonModule],
   templateUrl: './res-orders.component.html',
   styleUrl: './res-orders.component.scss',
 })
 export class ResOrdersComponent implements OnInit, AfterViewInit {
   totalDistance: number = 0;
   @ViewChild(GoogleMap) googleMaps!: GoogleMap;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: resBestRouteModalDto) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: resBestRouteModalDto,
+    private dialogRef: MatDialogRef<ResOrdersComponent>,
+    private matDialog: MatDialog
+  ) {}
   ngAfterViewInit(): void {
     this.directionRenderer.setMap(this.googleMaps.googleMap!);
     let waypoints: google.maps.DirectionsWaypoint[] =
@@ -56,6 +69,57 @@ export class ResOrdersComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.center = this.convertLatLng(this.data.bestRoute.originCoord);
+    this.dialogRef.afterClosed().subscribe(() => {
+      const dataPro: visitProductDto[] = [];
+      const providersId: number[] = [
+        ...new Set(
+          this.data.bestRoute.routes.map((route) => {
+            return route.station.provider.id!;
+          })
+        ),
+      ];
+      providersId.forEach((id) => {
+        let currentStation: visitDto[] = this.data.bestRoute.routes.filter(
+          (route) => route.station.provider.id === id
+        );
+        let productsId: number[] = currentStation
+          .map((route) => {
+            return route.visitProducts.map((product) => {
+              return product.ordenDetail.product.id!;
+            });
+          })
+          .flat();
+        productsId = [...new Set(productsId)];
+        productsId.forEach((id) => {
+          let currentProduct: visitProductDto[] = currentStation
+            .map((route) => {
+              return route.visitProducts.filter(
+                (product) => product.ordenDetail.product.id === id
+              );
+            })
+            .flat();
+          let quantity = currentProduct.reduce((acc, curr) => {
+            return acc + curr.quantity;
+          }, 0);
+
+          dataPro.push({
+            id: id,
+            ordenDetail: currentProduct[0].ordenDetail,
+            price: currentProduct[0].price,
+            quantity: quantity,
+          });
+        });
+      });
+
+      // this.data.bestRoute.routes
+      //   .map((route) => {
+      //     return route.visitProducts;
+      //   })
+      //   .flat();
+      this.matDialog.open(ModalResDetaillComponent, {
+        data: dataPro,
+      });
+    });
   }
   directionService = new google.maps.DirectionsService();
   directionRenderer = new google.maps.DirectionsRenderer();

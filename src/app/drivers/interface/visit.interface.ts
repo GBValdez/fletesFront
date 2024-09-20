@@ -9,6 +9,7 @@ interface visitProductDtoBase {
 export interface visitProductDto extends visitProductDtoBase {
   id: number;
   ordenDetail: orderDetailDto;
+  price: number;
 }
 
 interface visitDtoBase {

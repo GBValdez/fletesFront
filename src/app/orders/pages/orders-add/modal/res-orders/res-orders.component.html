@@ -1,34 +1,61 @@
 <mat-dialog-content>
-  <google-map
-    height="70%"
-    width="100%"
-    [options]="options"
-    [center]="center"
-    [zoom]="zoom"
-    #mapElement
-  >
-    @for (item of this.data.stations; track $index) {
-    <map-advanced-marker
-      #markerElement="mapAdvancedMarker"
-      [position]="convertLatLng(item.cord)"
-      [title]="item.id + ' ' + item.provider.name"
+  <section class="w-full">
+    <google-map
+      width="100%"
+      [options]="options"
+      [center]="center"
+      [zoom]="zoom"
+      #mapElement
     >
-    </map-advanced-marker>
-    }
-    <map-advanced-marker
-      #markerElement="mapAdvancedMarker"
-      [position]="convertLatLng(this.data.bestRoute.originCoord)"
-      [title]="'Origen'"
-    >
-    </map-advanced-marker>
+      @for (item of this.data.stations; track $index) {
+      <map-advanced-marker
+        #markerElement="mapAdvancedMarker"
+        [position]="convertLatLng(item.cord)"
+        [title]="item.id + ' ' + item.provider.name"
+        (mapClick)="showAll(item.id + ' ' + item.provider.name)"
+      >
+      </map-advanced-marker>
+      }
+      <map-advanced-marker
+        #markerElement="mapAdvancedMarker"
+        [position]="convertLatLng(this.data.bestRoute.originCoord)"
+        [title]="'Origen'"
+        (mapClick)="showAll('Origen')"
+      >
+      </map-advanced-marker>
 
-    <map-advanced-marker
-      #markerElement="mapAdvancedMarker"
-      [position]="convertLatLng(this.data.deliveryCord)"
-      [title]="'Destino'"
-    >
-    </map-advanced-marker>
-  </google-map>
+      <map-advanced-marker
+        #markerElement="mapAdvancedMarker"
+        [position]="convertLatLng(this.data.deliveryCord)"
+        [title]="'Destino'"
+        (mapClick)="showAll('Destino')"
+      >
+      </map-advanced-marker>
+    </google-map>
+  </section>
+
+  <mat-card class="w-full">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Ruta elegida</h3>
+        <h4>Conductor: {{ data.bestRoute.driver.id }}</h4>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <h5>Costo total: Q{{ data.bestRoute.costTotal }}</h5>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <!-- <mat-card class="w-full">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Ruta calculada google maps</h3>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <h5>Costo total: Q{{ total(totalDistance) }}</h5>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card> -->
 
   <section class="w-full">
     <p>Demás conductores</p>
@@ -37,19 +64,23 @@
       <mat-card class="w-[40%] m-[5px]">
         <mat-card-header>
           <mat-card-title>
+            @if(item.driver.id==data.bestRoute.driver.id) {
+            <h3>Ruta elegida</h3>
+
+            }
             <h4>Conductor: {{ item.driver.id }}</h4>
           </mat-card-title>
           <mat-card-subtitle>
-            <h5>Costo total: {{ item.costTotal }} km</h5>
+            <h5>Costo total: Q{{ item.costTotal }}</h5>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>Estaciones:</p>
+          <!-- <p>Estaciones:</p>
           <ul>
             @for (station of item.routes; track $index) {
             <li>{{ station.station.id }}</li>
             }
-          </ul>
+          </ul> -->
         </mat-card-content>
       </mat-card>
       }

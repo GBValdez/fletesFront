@@ -21,6 +21,7 @@ import {
   styleUrl: './res-orders.component.scss',
 })
 export class ResOrdersComponent implements OnInit, AfterViewInit {
+  totalDistance: number = 0;
   @ViewChild(GoogleMap) googleMaps!: GoogleMap;
   constructor(@Inject(MAT_DIALOG_DATA) public data: resBestRouteModalDto) {}
   ngAfterViewInit(): void {
@@ -43,6 +44,12 @@ export class ResOrdersComponent implements OnInit, AfterViewInit {
       (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
           this.directionRenderer.setDirections(result);
+          this.totalDistance = 0;
+          console.log(result);
+          if (result)
+            result.routes[0].legs.forEach((leg) => {
+              this.totalDistance += leg!.distance!.value / 1000;
+            });
         }
       }
     );
@@ -72,5 +79,17 @@ export class ResOrdersComponent implements OnInit, AfterViewInit {
   convertLatLng(latlng: string): google.maps.LatLng {
     const [lat, lng] = latlng.split(',');
     return new google.maps.LatLng(parseFloat(lat), parseFloat(lng));
+  }
+
+  total(distance: number) {
+    return (
+      distance *
+      this.data.bestRoute.driver.modelGasoline.gasolineLtsKm *
+      Number(this.data.bestRoute.driver.modelGasoline.gasolineType.description)
+    );
+  }
+
+  showAll(message: string) {
+    alert(message);
   }
 }

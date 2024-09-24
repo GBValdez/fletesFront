@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-autocomplete-google-maps',
@@ -18,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './autocomplete-google-maps.component.scss',
 })
 export class AutocompleteGoogleMapsComponent implements AfterViewInit {
+  constructor(spinnerSvc: NgxSpinnerService) {}
   @ViewChild('inputField') search!: ElementRef;
   autoComplete!: google.maps.places.Autocomplete;
   changeComplete: OutputEmitterRef<google.maps.LatLng> = output();
@@ -25,6 +27,7 @@ export class AutocompleteGoogleMapsComponent implements AfterViewInit {
     this.autoComplete = new google.maps.places.Autocomplete(
       this.search.nativeElement
     );
+
     this.autoComplete.addListener('place_changed', () => {
       const place = this.autoComplete.getPlace();
       if (place.geometry)

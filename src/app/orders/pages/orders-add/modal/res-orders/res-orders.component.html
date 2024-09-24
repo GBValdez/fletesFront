@@ -75,12 +75,16 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <!-- <p>Estaciones:</p>
+          <p>Estaciones:</p>
           <ul>
             @for (station of item.routes; track $index) {
-            <li>{{ station.station.id }}</li>
+
+            <li>
+              {{ station.stationId }}
+            </li>
+
             }
-          </ul> -->
+          </ul>
         </mat-card-content>
       </mat-card>
       }

@@ -48,8 +48,8 @@ export class ModelGasolineFormComponent implements OnInit {
     this.form = this.fb.group({
       typeVehicleId: ['', Validators.required],
       gasolineTypeId: ['', Validators.required],
-      gasolineLtsKm: ['', [Validators.required, Validators.min(0.1)]],
-      maximumWeight: ['', [Validators.required, Validators.min(0.1)]],
+      gasolineLtsKm: ['', [Validators.required, Validators.min(0.01)]],
+      maximumWeight: ['', [Validators.required, Validators.min(0.01)]],
     });
     let obs: Observable<any>;
     if (this.data.id === undefined) {

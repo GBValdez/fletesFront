@@ -20,7 +20,12 @@
     </mat-form-field>
     <mat-form-field class="w-full mb-3">
       <mat-label>Galones de gasolina que consume por kilómetro</mat-label>
-      <input matInput formControlName="gasolineLtsKm" appOnlyNumberInput />
+      <input
+        matInput
+        formControlName="gasolineLtsKm"
+        appOnlyNumberInput
+        [decimals]="true"
+      />
       @if (form.get("gasolineLtsKm")!.hasError("required")) {
       <mat-error>El campo es requerido</mat-error>
       } @if(form.get("gasolineLtsKm")!.hasError("min")) {
@@ -29,7 +34,12 @@
     </mat-form-field>
     <mat-form-field class="w-full mb-3">
       <mat-label>Máximo de peso (kg)</mat-label>
-      <input matInput formControlName="maximumWeight" appOnlyNumberInput />
+      <input
+        matInput
+        formControlName="maximumWeight"
+        appOnlyNumberInput
+        [decimals]="true"
+      />
       @if (form.get("maximumWeight")!.hasError("required")) {
       <mat-error>El campo es requerido</mat-error>
       } @if(form.get("maximumWeight")!.hasError("min")) {

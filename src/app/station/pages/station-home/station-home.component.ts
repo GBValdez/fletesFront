@@ -33,6 +33,7 @@ export class StationHomeComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom: number = 4;
   providerName: string = '';
+  providerId: number = 0;
   constructor(
     private matDialog: MatDialog,
     private routerAct: ActivatedRoute,
@@ -42,12 +43,12 @@ export class StationHomeComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const providerId = this.routerAct.snapshot.params['id'];
-
+    this.providerId = providerId;
     setTimeout(() => {
       this.getData();
     }, 1000);
     this.providerSvc
-      .get({ query: { Id: providerId }, pageNumber: 1, pageSize: 10 })
+      .get({ query: { Id: this.providerId }, pageNumber: 1, pageSize: 10 })
       .subscribe((res) => {
         this.providerName = res.items[0].name;
       });
@@ -66,7 +67,12 @@ export class StationHomeComponent implements OnInit {
 
   getData(): void {
     this.stationSvc
-      .get({ all: true, pageNumber: 0, pageSize: 10 })
+      .get({
+        all: true,
+        pageNumber: 0,
+        pageSize: 10,
+        query: { Id: this.providerId },
+      })
       .subscribe((res) => {
         this.stations = res.items;
       });

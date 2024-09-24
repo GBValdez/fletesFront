@@ -16,6 +16,7 @@ interface visitDtoBase {
   estimatedTime: Date;
   realDate: Date;
   arrivalDate: Date;
+  stationId: number;
 }
 
 export interface visitDto extends visitDtoBase {
